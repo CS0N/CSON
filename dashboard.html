@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSON Tech Dashboard 2025–2026</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --navy:     #002147;
+  --navy2:    #00173a;
+  --navy-lt:  #0a3060;
+  --gold:     #C9A84C;
+  --gold2:    #e8c86a;
+  --gold-lt:  #FDF5E0;
+  --cream:    #FAFAF7;
+  --surface:  #ffffff;
+  --border:   #E8E4DC;
+  --mid:      #6B7280;
+  --dark:     #111827;
+  --red:      #DC2626;
+  --red-lt:   #FEE2E2;
+  --amber:    #D97706;
+  --amber-lt: #FEF3C7;
+  --green:    #16A34A;
+  --green-lt: #DCFCE7;
+  --sidebar-w: 220px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  font-size: 14px;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--navy);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 200;
+  border-right: 1px solid rgba(201,168,76,.15);
+}
+
+.sidebar-brand {
+  padding: 1.4rem 1.2rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-brand .school {
+  font-family: 'EB Garamond', serif;
+  font-size: 15px;
+  color: #fff;
+  line-height: 1.3;
+  font-weight: 500;
+}
+
+.sidebar-brand .sub {
+  font-size: 10px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 3px;
+}
+
+.sidebar-gold-bar {
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 0 1.2rem 1rem;
+}
+
+.sidebar-section {
+  padding: .4rem 1.2rem .2rem;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  margin-top: .4rem;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: .55rem 1.2rem;
+  color: rgba(255,255,255,.55);
+  cursor: pointer;
+  border-radius: 0;
+  transition: all .15s;
+  font-size: 13px;
+  font-weight: 400;
+  border-left: 2px solid transparent;
+  text-decoration: none;
+}
+
+.nav-item:hover { color: rgba(255,255,255,.9); background: rgba(255,255,255,.05); }
+
+.nav-item.active {
+  color: var(--gold);
+  background: rgba(201,168,76,.1);
+  border-left-color: var(--gold);
+  font-weight: 500;
+}
+
+.nav-icon { font-size: 15px; width: 18px; text-align: center; }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 1rem 1.2rem;
+  border-top: 1px solid rgba(255,255,255,.08);
+  font-size: 11px;
+  color: rgba(255,255,255,.3);
+  line-height: 1.5;
+}
+
+.sidebar-footer strong { color: rgba(255,255,255,.5); display: block; }
+
+/* ── MAIN ──────────────────────────────────────────────────────────────── */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ──────────────────────────────────────────────────────────── */
+.topbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: sticky; top: 0; z-index: 100;
+}
+
+.topbar-title {
+  font-family: 'EB Garamond', serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--navy);
+  flex: 1;
+}
+
+.topbar-title span { font-style: italic; color: var(--mid); font-size: 16px; margin-left: 8px; }
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.filter-btn {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--mid);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+
+.filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+
+.filter-btn.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+.export-btn {
+  padding: 6px 14px;
+  background: var(--gold);
+  border: none;
+  border-radius: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+  cursor: pointer;
+  transition: background .15s;
+  margin-left: 6px;
+}
+
+.export-btn:hover { background: var(--gold2); }
+
+/* ── CONTENT ──────────────────────────────────────────────────────────── */
+.content {
+  padding: 1.8rem 2rem;
+  flex: 1;
+}
+
+.view { display: none; }
+.view.active { display: block; }
+
+/* ── KPI ROW ─────────────────────────────────────────────────────────── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.kpi {
+  background: var(--surface);
+  padding: 1.1rem 1.3rem;
+  position: relative;
+  cursor: default;
+  transition: background .15s;
+}
+
+.kpi:hover { background: #FAFAF5; }
+
+.kpi::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.kpi.navy::before   { background: var(--navy); }
+.kpi.gold::before   { background: var(--gold); }
+.kpi.green::before  { background: var(--green); }
+.kpi.red::before    { background: var(--red); }
+.kpi.amber::before  { background: var(--amber); }
+
+.kpi-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 4px;
+}
+
+.kpi-val {
+  font-family: 'EB Garamond', serif;
+  font-size: 38px;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.kpi.navy .kpi-val   { color: var(--navy); }
+.kpi.gold .kpi-val   { color: var(--navy); }
+.kpi.green .kpi-val  { color: var(--green); }
+.kpi.red .kpi-val    { color: var(--red); }
+.kpi.amber .kpi-val  { color: var(--amber); }
+
+.kpi-sub {
+  font-size: 11px;
+  color: var(--mid);
+  line-height: 1.3;
+}
+
+.kpi-trend {
+  position: absolute;
+  top: .9rem; right: 1rem;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+.kpi-trend.down { background: var(--green-lt); color: var(--green); }
+.kpi-trend.up   { background: var(--red-lt);   color: var(--red); }
+.kpi-trend.neu  { background: var(--amber-lt); color: var(--amber); }
+
+/* ── GRID ─────────────────────────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+.grid-3-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 1.2rem; margin-bottom: 1.2rem; }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem 1.3rem;
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: .8rem;
+  gap: 1rem;
+}
+
+.card-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--navy);
+}
+
+.card-desc {
+  font-size: 12px;
+  color: var(--mid);
+  margin-top: 2px;
+  line-height: 1.45;
+}
+
+.card-badge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.badge-navy  { background: #EEF2FF; color: var(--navy); }
+.badge-gold  { background: var(--gold-lt); color: #7A5C00; }
+.badge-green { background: var(--green-lt); color: var(--green); }
+.badge-red   { background: var(--red-lt); color: var(--red); }
+.badge-amber { background: var(--amber-lt); color: var(--amber); }
+
+canvas { display: block; }
+
+/* ── ROOM HEATMAP ──────────────────────────────────────────────────────── */
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.heatmap-room {
+  border-radius: 8px;
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+  position: relative;
+}
+
+.heatmap-room:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+  z-index: 2;
+}
+
+.heatmap-room .room-id {
+  font-size: 13px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.heatmap-room .room-count {
+  font-size: 11px;
+  font-weight: 500;
+  display: block;
+}
+
+/* ── TABLE ──────────────────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table thead th {
+  background: var(--navy);
+  color: rgba(255,255,255,.85);
+  padding: .6rem .9rem;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.data-table thead th:hover { background: var(--navy-lt); }
+
+.data-table thead th .sort-arrow { margin-left: 4px; opacity: .5; }
+
+.data-table tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background .1s;
+}
+
+.data-table tbody tr:hover { background: #FAFAF5; }
+.data-table tbody tr:last-child { border-bottom: none; }
+
+.data-table tbody td {
+  padding: .6rem .9rem;
+  vertical-align: middle;
+  line-height: 1.4;
+}
+
+.sev-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .05em;
+  white-space: nowrap;
+}
+
+.sev-badge.High   { background: var(--red-lt);   color: var(--red); }
+.sev-badge.Medium { background: var(--amber-lt);  color: var(--amber); }
+.sev-badge.Low    { background: var(--green-lt);  color: var(--green); }
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .05em;
+}
+
+.status-badge.Resolved { background: var(--green-lt); color: var(--green); }
+.status-badge.Open     { background: var(--amber-lt); color: var(--amber); }
+
+.search-bar {
+  width: 100%;
+  padding: .55rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--dark);
+  background: var(--surface);
+  margin-bottom: .8rem;
+  outline: none;
+  transition: border-color .15s;
+}
+
+.search-bar:focus { border-color: var(--navy); }
+
+/* ── ROOM DETAIL PANEL ─────────────────────────────────────────────────── */
+.detail-panel {
+  position: fixed;
+  top: 0; right: -420px;
+  width: 420px;
+  height: 100vh;
+  background: var(--surface);
+  border-left: 1px solid var(--border);
+  z-index: 300;
+  transition: right .3s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  box-shadow: -8px 0 32px rgba(0,0,0,.1);
+}
+
+.detail-panel.open { right: 0; }
+
+.detail-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,33,71,.35);
+  z-index: 290;
+  display: none;
+  backdrop-filter: blur(2px);
+}
+
+.detail-overlay.open { display: block; }
+
+.detail-header {
+  background: var(--navy);
+  padding: 1.4rem 1.4rem 1.2rem;
+  position: sticky; top: 0;
+}
+
+.detail-room-id {
+  font-family: 'EB Garamond', serif;
+  font-size: 32px;
+  color: #fff;
+  font-weight: 400;
+}
+
+.detail-close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.15);
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+}
+
+.detail-close:hover { background: rgba(255,255,255,.3); }
+
+.detail-body { padding: 1.2rem 1.4rem; }
+
+.detail-stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 1.2rem;
+}
+
+.detail-stat {
+  background: var(--cream);
+  border-radius: 8px;
+  padding: .8rem;
+  text-align: center;
+}
+
+.detail-stat .val {
+  font-family: 'EB Garamond', serif;
+  font-size: 26px;
+  color: var(--navy);
+  display: block;
+}
+
+.detail-stat .lbl {
+  font-size: 10px;
+  color: var(--mid);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 600;
+}
+
+.detail-issue-list { margin-top: .6rem; }
+
+.detail-issue {
+  padding: .65rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.detail-issue:last-child { border-bottom: none; }
+
+.detail-issue .di-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+  flex-wrap: wrap;
+}
+
+.detail-issue .di-date { font-size: 11px; color: var(--mid); }
+
+/* ── TREND VIEW ─────────────────────────────────────────────────────────── */
+.trend-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.trend-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem;
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .15s;
+}
+
+.trend-card:hover, .trend-card.active {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(0,33,71,.06);
+}
+
+.trend-card.active { border-color: var(--gold); background: var(--gold-lt); }
+
+.trend-cat { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+
+.trend-nums {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.trend-fall  { font-family: 'EB Garamond',serif; font-size: 28px; color: var(--navy); }
+.trend-arrow { font-size: 16px; color: var(--mid); }
+.trend-spr   { font-family: 'EB Garamond',serif; font-size: 28px; }
+
+.trend-delta {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+/* ── ANIMATIONS ──────────────────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(12px); }
+  to   { opacity:1; transform:none; }
+}
+
+.animate-in {
+  animation: fadeUp .4s ease both;
+}
+
+.animate-in:nth-child(1) { animation-delay: .05s; }
+.animate-in:nth-child(2) { animation-delay: .1s; }
+.animate-in:nth-child(3) { animation-delay: .15s; }
+.animate-in:nth-child(4) { animation-delay: .2s; }
+.animate-in:nth-child(5) { animation-delay: .25s; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="school">Conway School<br>of Nursing</div>
+    <div class="sub">Teaching Technology</div>
+  </div>
+  <div class="sidebar-gold-bar"></div>
+
+  <div class="sidebar-section">Dashboards</div>
+  <a class="nav-item active" onclick="switchView('overview', this)">
+    <span class="nav-icon">◈</span> Overview
+  </a>
+  <a class="nav-item" onclick="switchView('rooms', this)">
+    <span class="nav-icon">⊞</span> Room Heatmap
+  </a>
+  <a class="nav-item" onclick="switchView('trends', this)">
+    <span class="nav-icon">⟋</span> Trends
+  </a>
+  <a class="nav-item" onclick="switchView('log', this)">
+    <span class="nav-icon">≡</span> Issue Log
+  </a>
+
+  <div class="sidebar-section" style="margin-top:1rem;">Status</div>
+  <a class="nav-item" onclick="switchView('tickets', this)">
+    <span class="nav-icon">⚑</span> Open Tickets
+    <span style="margin-left:auto;background:var(--amber);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;">5</span>
+  </a>
+
+  <div class="sidebar-footer">
+    <strong>AY 2025–2026</strong>
+    Last check: May 19, 2026
+  </div>
+</aside>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="overlay" onclick="closeDetail()"></div>
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-header" style="position:relative;">
+    <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;">Room Detail</div>
+    <div class="detail-room-id" id="detailRoomId">G03</div>
+    <button class="detail-close" onclick="closeDetail()">✕</button>
+  </div>
+  <div class="detail-body" id="detailBody"></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-title" id="topbarTitle">Overview <span>2025–2026</span></div>
+    <div class="filter-group">
+      <span class="filter-label">Semester</span>
+      <button class="filter-btn active" onclick="setSemester('all', this)">All Year</button>
+      <button class="filter-btn" onclick="setSemester('fall', this)">Fall 2025</button>
+      <button class="filter-btn" onclick="setSemester('spring', this)">Spring 2026</button>
+    </div>
+    <button class="export-btn" onclick="window.print()">⬇ Export</button>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ── OVERVIEW VIEW ── -->
+    <div class="view active" id="view-overview">
+
+      <!-- KPIs -->
+      <div class="kpi-row">
+        <div class="kpi navy animate-in">
+          <div class="kpi-label">Total Issues</div>
+          <div class="kpi-val" id="kpi-total">167</div>
+          <div class="kpi-sub">Logged AY 2025–26</div>
+        </div>
+        <div class="kpi green animate-in">
+          <span class="kpi-trend down" id="kpi-trend-issues">−36%</span>
+          <div class="kpi-label">Issue Reduction</div>
+          <div class="kpi-val" id="kpi-reduction">−36%</div>
+          <div class="kpi-sub">Fall → Spring</div>
+        </div>
+        <div class="kpi green animate-in">
+          <span class="kpi-trend down">−60%</span>
+          <div class="kpi-label">Ticket Reduction</div>
+          <div class="kpi-val">−60%</div>
+          <div class="kpi-sub">Year-over-year ITS tickets</div>
+        </div>
+        <div class="kpi amber animate-in">
+          <span class="kpi-trend neu">5 open</span>
+          <div class="kpi-label">Open Tickets</div>
+          <div class="kpi-val">5</div>
+          <div class="kpi-sub">Entering summer 2026</div>
+        </div>
+        <div class="kpi red animate-in">
+          <div class="kpi-label">G03 Issues</div>
+          <div class="kpi-val">34</div>
+          <div class="kpi-sub">Top room — 28% of total</div>
+        </div>
+      </div>
+
+      <!-- Charts row 1 -->
+      <div class="grid-2">
+        <div class="card animate-in">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Issues by Category</div>
+              <div class="card-desc" id="catChartDesc">Comparing Fall 2025 vs Spring 2026</div>
+            </div>
+            <span class="card-badge badge-gold">Semester Compare</span>
+          </div>
+          <div style="position:relative;height:220px;">
+            <canvas id="catChart" role="img" aria-label="Issues by category bar chart"></canvas>
+          </div>
+        </div>
+        <div class="card animate-in">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Monthly Volume</div>
+              <div class="card-desc">Issue trend across both semesters</div>
+            </div>
+            <span class="card-badge badge-navy">Timeline</span>
+          </div>
+          <div style="position:relative;height:220px;">
+            <canvas id="monthChart" role="img" aria-label="Monthly issue volume line chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts row 2 -->
+      <div class="grid-3">
+        <div class="card animate-in">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Severity Split</div>
+              <div class="card-desc">All year distribution</div>
+            </div>
+          </div>
+          <div style="position:relative;height:180px;">
+            <canvas id="sevDonut" role="img" aria-label="Severity donut chart"></canvas>
+          </div>
+        </div>
+        <div class="card animate-in">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Issue Types</div>
+              <div class="card-desc" id="typeChartDesc">All year breakdown</div>
+            </div>
+          </div>
+          <div style="position:relative;height:180px;">
+            <canvas id="typeChart" role="img" aria-label="Issue types pie chart"></canvas>
+          </div>
+        </div>
+        <div class="card animate-in">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Top 5 Rooms</div>
+              <div class="card-desc">By total issue count</div>
+            </div>
+          </div>
+          <div style="position:relative;height:180px;">
+            <canvas id="roomBarChart" role="img" aria-label="Top rooms horizontal bar chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /overview -->
+
+    <!-- ── ROOM HEATMAP VIEW ── -->
+    <div class="view" id="view-rooms">
+      <div class="card animate-in" style="margin-bottom:1.2rem;">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Room Heat Map</div>
+            <div class="card-desc">Click any room to see its full issue breakdown. Color = issue intensity.</div>
+          </div>
+          <span class="card-badge badge-amber">Interactive</span>
+        </div>
+        <div class="heatmap-grid" id="heatmapGrid"></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-top:1rem;font-size:11px;color:var(--mid);">
+          <div style="display:flex;gap:4px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#E8F5E9;"></div> Low (1–5)
+          </div>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#FFF9C4;"></div> Medium (6–15)
+          </div>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#FFE0B2;"></div> High (16–25)
+          </div>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <div style="width:14px;height:14px;border-radius:3px;background:#FFCDD2;"></div> Critical (26+)
+          </div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card animate-in">
+          <div class="card-header"><div class="card-title">Issues by Room — Full Year</div></div>
+          <div style="position:relative;height:260px;">
+            <canvas id="roomFullChart" role="img" aria-label="All rooms bar chart"></canvas>
+          </div>
+        </div>
+        <div class="card animate-in">
+          <div class="card-header"><div class="card-title">Room Issue Severity Breakdown</div></div>
+          <div style="position:relative;height:260px;">
+            <canvas id="roomSevChart" role="img" aria-label="Room severity stacked bar"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TRENDS VIEW ── -->
+    <div class="view" id="view-trends">
+      <div class="trend-cards animate-in" id="trendCards"></div>
+      <div class="card animate-in">
+        <div class="card-header">
+          <div>
+            <div class="card-title" id="trendChartTitle">Category Trend Over Time</div>
+            <div class="card-desc">Select a category above to drill in</div>
+          </div>
+          <span class="card-badge badge-navy">Drill-down</span>
+        </div>
+        <div style="position:relative;height:280px;">
+          <canvas id="trendDetailChart" role="img" aria-label="Trend detail chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ISSUE LOG VIEW ── -->
+    <div class="view" id="view-log">
+      <div class="card animate-in">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Complete Issue Log</div>
+            <div class="card-desc">All logged issues — click column headers to sort</div>
+          </div>
+          <span class="card-badge badge-navy" id="logCount">167 records</span>
+        </div>
+        <input type="text" class="search-bar" id="logSearch" placeholder="Search by room, issue type, notes…" oninput="filterLog()">
+        <div style="overflow-x:auto;max-height:520px;overflow-y:auto;">
+          <table class="data-table" id="logTable">
+            <thead>
+              <tr>
+                <th onclick="sortLog('date')">Date <span class="sort-arrow">↕</span></th>
+                <th onclick="sortLog('room')">Room <span class="sort-arrow">↕</span></th>
+                <th onclick="sortLog('issue')">Type <span class="sort-arrow">↕</span></th>
+                <th onclick="sortLog('sev')">Severity <span class="sort-arrow">↕</span></th>
+                <th onclick="sortLog('semester')">Semester <span class="sort-arrow">↕</span></th>
+                <th>Notes</th>
+                <th onclick="sortLog('status')">Status <span class="sort-arrow">↕</span></th>
+              </tr>
+            </thead>
+            <tbody id="logBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TICKETS VIEW ── -->
+    <div class="view" id="view-tickets">
+      <div class="kpi-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:1.5rem;">
+        <div class="kpi red animate-in">
+          <div class="kpi-label">High Severity</div>
+          <div class="kpi-val">3</div>
+          <div class="kpi-sub">Require urgent ITS action</div>
+        </div>
+        <div class="kpi amber animate-in">
+          <div class="kpi-label">Medium Severity</div>
+          <div class="kpi-val">2</div>
+          <div class="kpi-sub">Facilities coordination needed</div>
+        </div>
+        <div class="kpi navy animate-in">
+          <div class="kpi-label">Total Open</div>
+          <div class="kpi-val">5</div>
+          <div class="kpi-sub">As of May 19, 2026</div>
+        </div>
+      </div>
+      <div class="card animate-in">
+        <div class="card-header">
+          <div class="card-title">Open Tickets — Entering Summer 2026</div>
+        </div>
+        <table class="data-table">
+          <thead><tr>
+            <th>Severity</th><th>Room</th><th>Issue</th><th>Ticket #</th><th>Opened</th><th>Status</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="sev-badge High">High</span></td>
+              <td><strong>G03</strong></td>
+              <td>Right projector non-functional; left projector intermittent. RTZ signal testing 4/21 — follow-up pending.</td>
+              <td>26304777</td><td>5/18/2026</td>
+              <td><span class="status-badge Open">Open</span></td>
+            </tr>
+            <tr>
+              <td><span class="sev-badge High">High</span></td>
+              <td><strong>G03</strong></td>
+              <td>Audio board not calibrated to auditorium room sound. Control room significantly louder than house audio.</td>
+              <td>26168158</td><td>4/20/2026</td>
+              <td><span class="status-badge Open">Open</span></td>
+            </tr>
+            <tr>
+              <td><span class="sev-badge High">High</span></td>
+              <td><strong>201</strong></td>
+              <td>Extron box auto-switches input 1→2, dropping Zoom microphone mid-session. Recurring since 1/8/2026.</td>
+              <td>25854228</td><td>2/12/2026</td>
+              <td><span class="status-badge Open">Open</span></td>
+            </tr>
+            <tr>
+              <td><span class="sev-badge Medium">Medium</span></td>
+              <td><strong>G03</strong></td>
+              <td>Right projector screen bent and crimped — scratched and leaning against wall. Facilities ticket submitted.</td>
+              <td>Fac. 115054</td><td>5/18/2026</td>
+              <td><span class="status-badge Open">Open</span></td>
+            </tr>
+            <tr>
+              <td><span class="sev-badge Medium">Medium</span></td>
+              <td><strong>G03B / 112</strong></td>
+              <td>Door frames coming off in G03B control room and Room 112. Facilities tickets submitted for both locations.</td>
+              <td>Facilities</td><td>5/18/2026</td>
+              <td><span class="status-badge Open">Open</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+const ISSUES = [
+  // Fall 2025
+  {date:'8/12/2025',room:'203',issue:'Microphone',sev:'Low',sem:'fall',notes:'Podium mic left on',status:'Resolved'},
+  {date:'8/12/2025',room:'201',issue:'Zoom - Camera',sev:'Medium',sem:'fall',notes:'Updated Zoom to fix out of focus camera',status:'Resolved'},
+  {date:'8/12/2025',room:'G03',issue:'Stewardship',sev:'Medium',sem:'fall',notes:'Projectors left on; ECS logged in',status:'Resolved'},
+  {date:'8/12/2025',room:'G03',issue:'Projectors',sev:'Medium',sem:'fall',notes:'Projectors flickering after reboot',status:'Open',ticket:'24898841'},
+  {date:'8/12/2025',room:'G03',issue:'Other',sev:'Low',sem:'fall',notes:'Computer wallpaper changed, restored to CUA logo',status:'Resolved'},
+  {date:'8/12/2025',room:'111',issue:'Mics/Audio',sev:'Low',sem:'fall',notes:'LAV mic not turning off — replaced with spare',status:'Resolved'},
+  {date:'8/19/2025',room:'110',issue:'Stewardship',sev:'Low',sem:'fall',notes:'AV and projectors left on; Zoom camera input changed',status:'Resolved'},
+  {date:'8/19/2025',room:'G03',issue:'Stewardship',sev:'Medium',sem:'fall',notes:'Projectors left on; water spilled; HDMI cables extended',status:'Resolved'},
+  {date:'8/19/2025',room:'G03',issue:'Zoom - Audio',sev:'Medium',sem:'fall',notes:'No sound output; rebooted and resolved',status:'Resolved'},
+  {date:'8/22/2025',room:'234',issue:'Sharelink',sev:'Medium',sem:'fall',notes:'ShareLink station not populating',status:'Open'},
+  {date:'8/22/2025',room:'G03',issue:'Mics/Audio',sev:'Medium',sem:'fall',notes:'LAV mic levels very low; turned up on podium',status:'Resolved'},
+  {date:'8/22/2025',room:'G03',issue:'Zoom - Camera',sev:'High',sem:'fall',notes:'Only ceiling camera connecting to Zoom',status:'Open',ticket:'24978848'},
+  {date:'8/22/2025',room:'110',issue:'Stewardship',sev:'Low',sem:'fall',notes:'Podium mic left on',status:'Resolved'},
+  {date:'8/22/2025',room:'201',issue:'Zoom - Audio',sev:'High',sem:'fall',notes:'Zoom microphone went out mid-meeting',status:'Resolved',ticket:'24979087'},
+  {date:'8/26/2025',room:'G03',issue:'Stewardship',sev:'Low',sem:'fall',notes:'Projectors and A/V panel left on',status:'Resolved'},
+  {date:'8/28/2025',room:'G03',issue:'Mics/Audio',sev:'Medium',sem:'fall',notes:'LAV mic going in and out during class',status:'Open'},
+  {date:'8/28/2025',room:'112',issue:'Mics/Audio',sev:'Low',sem:'fall',notes:'Wireless mic high frequency — reduced volume',status:'Resolved'},
+  {date:'8/28/2025',room:'112',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'No audio on Zoom speakers; reboot resolved',status:'Resolved'},
+  {date:'8/28/2025',room:'110',issue:'Stewardship',sev:'Low',sem:'fall',notes:'Wireless mic left out of charger',status:'Resolved'},
+  {date:'8/28/2025',room:'302',issue:'Stewardship',sev:'Low',sem:'fall',notes:'Docucam left on',status:'Resolved'},
+  {date:'8/28/2025',room:'201',issue:'Stewardship',sev:'Low',sem:'fall',notes:'Wireless mic left out of charger',status:'Resolved'},
+  {date:'9/3/2025',room:'G03',issue:'Mics/Audio',sev:'High',sem:'fall',notes:'LAV mic cutting out — worse during BTTG meeting',status:'Open'},
+  {date:'9/4/2025',room:'201',issue:'Zoom - Camera',sev:'High',sem:'fall',notes:'Zoom not detecting camera; resolved after second reboot',status:'Resolved',ticket:'25065703'},
+  {date:'9/4/2025',room:'112',issue:'Stewardship',sev:'Low',sem:'fall',notes:'Docucam left on',status:'Resolved'},
+  {date:'9/4/2025',room:'G03',issue:'Stewardship',sev:'Low',sem:'fall',notes:'Computer powered off; emailed last user',status:'Resolved'},
+  {date:'9/4/2025',room:'111',issue:'Stewardship',sev:'Low',sem:'fall',notes:'Computer powered off; emailed Dr. Sharma',status:'Resolved'},
+  {date:'9/11/2025',room:'201',issue:'Zoom - Camera',sev:'Low',sem:'fall',notes:'Zoom camera would not engage; rebooted',status:'Resolved'},
+  {date:'9/11/2025',room:'203',issue:'Computer Monitor',sev:'Medium',sem:'fall',notes:'Computer not reacting; rebooted',status:'Resolved'},
+  {date:'9/11/2025',room:'111',issue:'Other',sev:'Low',sem:'fall',notes:'Room audio volume extremely loud',status:'Resolved'},
+  {date:'9/11/2025',room:'112',issue:'Stewardship',sev:'Low',sem:'fall',notes:'Pens and water bottle left on podium',status:'Resolved'},
+  {date:'9/15/2025',room:'DCR',issue:'Other',sev:'High',sem:'fall',notes:"Dean's Conference Room — connection drops with Mac",status:'Open',ticket:'25121033'},
+  {date:'9/24/2025',room:'302',issue:'AV Panel',sev:'Low',sem:'fall',notes:'A/V panel (projector/monitor) left on',status:'Resolved'},
+  {date:'9/24/2025',room:'302',issue:'Mics/Audio',sev:'Low',sem:'fall',notes:'Lectern mic volume all the way down; lav too high',status:'Resolved'},
+  {date:'9/24/2025',room:'302',issue:'Zoom - Camera',sev:'Low',sem:'fall',notes:'Camera on Zoom needed to be reset',status:'Resolved'},
+  {date:'9/24/2025',room:'111',issue:'Docucam',sev:'Low',sem:'fall',notes:'Doc cam left on; mic levels too high',status:'Resolved'},
+  {date:'10/2/2025',room:'116',issue:'AV Panel',sev:'High',sem:'fall',notes:'A/V panel frozen/blinking red; reboot resolved',status:'Resolved'},
+  {date:'10/3/2025',room:'203',issue:'Mics/Audio',sev:'Medium',sem:'fall',notes:'LAV mic not working properly',status:'Resolved'},
+  {date:'10/3/2025',room:'110',issue:'Projectors',sev:'High',sem:'fall',notes:'Instructor computer not displaying on projectors',status:'Resolved',ticket:'25223822'},
+  {date:'10/6/2025',room:'111',issue:'Mics/Audio',sev:'High',sem:'fall',notes:'LAV mic on but loud background noise',status:'Resolved'},
+  {date:'10/6/2025',room:'112',issue:'Computer Monitor',sev:'Low',sem:'fall',notes:'Right monitor blank — monitor turned off by someone',status:'Resolved'},
+  {date:'10/9/2025',room:'G03',issue:'Other',sev:'High',sem:'fall',notes:'Left outer door not opening — facility ticket submitted',status:'Open',ticket:'107727'},
+  {date:'10/9/2025',room:'111',issue:'Microphone',sev:'Medium',sem:'fall',notes:'Handheld mic not turning on — battery changed',status:'Resolved'},
+  {date:'10/10/2025',room:'116',issue:'Stewardship',sev:'Low',sem:'fall',notes:'System and mic not turned off',status:'Resolved'},
+  {date:'10/10/2025',room:'302',issue:'Zoom - Audio',sev:'Medium',sem:'fall',notes:'Zoom not detecting audio; switched Extron 2→1',status:'Resolved'},
+  {date:'10/15/2025',room:'302',issue:'Stewardship',sev:'Low',sem:'fall',notes:'System not turned off',status:'Resolved'},
+  {date:'10/20/2025',room:'302',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Zoom not detecting audio; switched Extron 2→1',status:'Resolved'},
+  {date:'10/23/2025',room:'302',issue:'Stewardship',sev:'Low',sem:'fall',notes:'System powered off with no class scheduled',status:'Resolved'},
+  {date:'10/23/2025',room:'203',issue:'Stewardship',sev:'Low',sem:'fall',notes:'System not turned off — possible student use',status:'Resolved'},
+  {date:'10/24/2025',room:'112',issue:'Docucam',sev:'Low',sem:'fall',notes:'Doc cam left on; emailed last faculty',status:'Resolved'},
+  {date:'10/24/2025',room:'110',issue:'Stewardship',sev:'Low',sem:'fall',notes:'System not turned off; faculty thought to leave it on',status:'Resolved'},
+  {date:'10/27/2025',room:'203',issue:'Zoom - Audio',sev:'Medium',sem:'fall',notes:'Zoom audio not working; Extron input in 1 but still failing',status:'Resolved'},
+  {date:'11/3/2025',room:'302',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Zoom not detecting audio; switched Extron 2→1',status:'Resolved'},
+  {date:'11/3/2025',room:'111',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Zoom not detecting audio; switched Extron 2→1',status:'Resolved'},
+  {date:'11/3/2025',room:'116',issue:'Mics/Audio',sev:'High',sem:'fall',notes:'Cannot adjust wireless/lectern mic levels on AV panel',status:'Open'},
+  {date:'11/5/2025',room:'201',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Zoom not detecting audio; switched Extron 2→1',status:'Resolved'},
+  {date:'11/10/2025',room:'111',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Zoom not detecting audio; switched Extron 2→1',status:'Resolved'},
+  {date:'11/11/2025',room:'110',issue:'Microphone',sev:'Low',sem:'fall',notes:'Podium mic left on',status:'Resolved'},
+  {date:'11/12/2025',room:'111',issue:'Zoom - Audio',sev:'Medium',sem:'fall',notes:'Recurring Extron input issue; tech ticket submitted',status:'Open',ticket:'25407412'},
+  {date:'11/13/2025',room:'110',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Zoom audio dropped during CCNE meeting',status:'Resolved'},
+  {date:'11/13/2025',room:'111',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Extron switched to 2 again; changed back',status:'Resolved'},
+  {date:'11/17/2025',room:'111',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Extron switched to 2 again; changed back',status:'Resolved'},
+  {date:'11/24/2025',room:'302',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Extron switched to 2 again; changed back',status:'Resolved'},
+  {date:'12/3/2025',room:'111',issue:'Zoom - Audio',sev:'Low',sem:'fall',notes:'Zoom not detecting audio; switched Extron 2→1',status:'Resolved'},
+  {date:'12/4/2025',room:'203',issue:'Zoom - Audio',sev:'Medium',sem:'fall',notes:'Audio/video not coming through; resolved via Extron switch',status:'Resolved'},
+  // Spring 2026
+  {date:'1/7/2026',room:'203',issue:'Zoom - Audio',sev:'Medium',sem:'spring',notes:'Extron speaker not working during Zoom audio test',status:'Open'},
+  {date:'1/7/2026',room:'110',issue:'Other',sev:'Low',sem:'spring',notes:'Clock set to wrong time; fixed',status:'Resolved'},
+  {date:'1/7/2026',room:'120',issue:'Zoom - Camera',sev:'Medium',sem:'spring',notes:'Camera and microphone not detected; electrical issues possible',status:'Resolved',ticket:'25657958'},
+  {date:'1/7/2026',room:'301',issue:'HDMI',sev:'Medium',sem:'spring',notes:'HDMI cable removed from doc cam; plugged back in',status:'Resolved'},
+  {date:'1/7/2026',room:'G03',issue:'Mics/Audio',sev:'Medium',sem:'spring',notes:'Trouble with audio; restarted and resolved',status:'Resolved'},
+  {date:'1/8/2026',room:'201',issue:'Zoom - Camera',sev:'High',sem:'spring',notes:'Extron box switched 1→2 causing video/audio dropout',status:'Open',ticket:'25665128'},
+  {date:'1/14/2026',room:'320',issue:'AV Panel',sev:'Medium',sem:'spring',notes:'AV panel flashing red; reboot resolved',status:'Resolved'},
+  {date:'1/14/2026',room:'112',issue:'Docucam',sev:'Low',sem:'spring',notes:'DocuCam unplugged and not connected; resolved',status:'Resolved'},
+  {date:'1/14/2026',room:'111',issue:'Microphone',sev:'Low',sem:'spring',notes:'Lav mic loud frequency; turned volume down',status:'Resolved'},
+  {date:'1/14/2026',room:'111',issue:'Zoom - Camera',sev:'Medium',sem:'spring',notes:'Zoom only detecting one camera; reboot resolved',status:'Resolved'},
+  {date:'1/14/2026',room:'116',issue:'Stewardship',sev:'Low',sem:'spring',notes:'A/V panel left on; emailed last faculty',status:'Resolved'},
+  {date:'1/21/2026',room:'110',issue:'Stewardship',sev:'Low',sem:'spring',notes:'A/V panel and DocuCam left on; emailed faculty',status:'Resolved'},
+  {date:'1/22/2026',room:'302',issue:'Stewardship',sev:'Low',sem:'spring',notes:'System improperly shut down; emailed last faculty',status:'Resolved'},
+  {date:'2/5/2026',room:'201',issue:'Stewardship',sev:'Low',sem:'spring',notes:'Computer shut down, A/V panel left on, cables pulled out',status:'Resolved'},
+  {date:'2/5/2026',room:'302',issue:'Projectors',sev:'High',sem:'spring',notes:'Computer not projecting; "No students use" sign torn off',status:'Resolved',ticket:'25821036'},
+  {date:'2/5/2026',room:'112',issue:'Zoom - Audio',sev:'Low',sem:'spring',notes:'Audio levels loud on room speakers',status:'Open'},
+  {date:'2/9/2026',room:'111',issue:'AV Panel',sev:'High',sem:'spring',notes:'A/V panel not engaging mid-class; reboot resolved',status:'Resolved'},
+  {date:'2/12/2026',room:'G03',issue:'Stewardship',sev:'Low',sem:'spring',notes:'Handheld mic returned backwards; personal items on podium',status:'Resolved'},
+  {date:'2/12/2026',room:'G03',issue:'Projectors',sev:'High',sem:'spring',notes:'Projector flickering — unable to play video',status:'Resolved',ticket:'25853203'},
+  {date:'2/12/2026',room:'201',issue:'Zoom - Audio',sev:'High',sem:'spring',notes:'Audio dropped on Zoom mid-BCC meeting; recurring Extron issue',status:'Open',ticket:'25854228'},
+  {date:'2/16/2026',room:'111',issue:'AV Panel',sev:'High',sem:'spring',notes:'A/V panel not engaging; rebooted and resolved',status:'Resolved',ticket:'25862994'},
+  {date:'2/16/2026',room:'110',issue:'Stewardship',sev:'Low',sem:'spring',notes:'System left on including projector and A/V panel',status:'Resolved'},
+  {date:'2/20/2026',room:'112',issue:'Computer Monitor',sev:'High',sem:'spring',notes:'Right computer monitor not turning on',status:'Resolved',ticket:'25889315'},
+  {date:'2/20/2026',room:'203',issue:'Docucam',sev:'Medium',sem:'spring',notes:'Doc Camera not turning on even after reconnecting',status:'Resolved'},
+  {date:'2/27/2026',room:'111',issue:'Stewardship',sev:'Low',sem:'spring',notes:'System left on; docucam not turning on',status:'Resolved'},
+  {date:'2/27/2026',room:'302',issue:'Zoom - Camera',sev:'Medium',sem:'spring',notes:'DocuCam not turning on',status:'Resolved'},
+  {date:'2/27/2026',room:'G03',issue:'Stewardship',sev:'High',sem:'spring',notes:'Extron box door found open with printing paper inside',status:'Resolved'},
+  {date:'3/6/2026',room:'203',issue:'Stewardship',sev:'Low',sem:'spring',notes:'Microphone left on',status:'Resolved'},
+  {date:'3/6/2026',room:'201',issue:'Zoom - Audio',sev:'Medium',sem:'spring',notes:'Microphone not turning on — pop up webcam needed',status:'Resolved'},
+  {date:'3/18/2026',room:'322',issue:'Projectors',sev:'Medium',sem:'spring',notes:'Projectors off with red lights flashing; IT resolved',status:'Resolved'},
+  {date:'3/23/2026',room:'201',issue:'Other',sev:'Low',sem:'spring',notes:'Request to duplicate screens',status:'Resolved'},
+  {date:'3/25/2026',room:'ShareLink',issue:'Sharelink',sev:'Low',sem:'spring',notes:'Connectivity issues with Mac',status:'Resolved'},
+  {date:'3/26/2026',room:'110',issue:'Microphone',sev:'Low',sem:'spring',notes:'LAV mic producing feedback; adjusted audio levels',status:'Resolved'},
+  {date:'3/26/2026',room:'110',issue:'Stewardship',sev:'Medium',sem:'spring',notes:'Floor monitors moved/unplugged; cables extended (trip hazard)',status:'Resolved'},
+  {date:'3/27/2026',room:'302',issue:'Stewardship',sev:'Low',sem:'spring',notes:'Extron system not turned off',status:'Resolved'},
+  {date:'3/27/2026',room:'203',issue:'Stewardship',sev:'Low',sem:'spring',notes:'Podium mic leaned down; papers and journal scattered',status:'Resolved'},
+  {date:'3/27/2026',room:'112',issue:'Stewardship',sev:'High',sem:'spring',notes:'Keyboard/mouse removed from tray; HDMI disconnected again',status:'Resolved'},
+  {date:'3/30/2026',room:'G03',issue:'Projectors',sev:'High',sem:'spring',notes:'Computer not projecting; left side only projecting after reboot',status:'Resolved'},
+  {date:'4/1/2026',room:'201',issue:'Microphone',sev:'Low',sem:'spring',notes:'Microphone left on',status:'Resolved'},
+  {date:'4/1/2026',room:'G03',issue:'Projectors',sev:'Medium',sem:'spring',notes:'Recurring left-side projector flickering',status:'Resolved',ticket:'26067328'},
+  {date:'4/10/2026',room:'112',issue:'Stewardship',sev:'Medium',sem:'spring',notes:'Mic left on; computer powered off',status:'Resolved'},
+  {date:'4/10/2026',room:'G03',issue:'Stewardship',sev:'Medium',sem:'spring',notes:'ECS left computer on in middle of promotional video',status:'Resolved'},
+  {date:'4/11/2026',room:'G03',issue:'Projectors',sev:'High',sem:'spring',notes:'Left projector flickering during Recruitment Event',status:'Resolved',ticket:'26124225'},
+  {date:'4/11/2026',room:'G03',issue:'Mics/Audio',sev:'Medium',sem:'spring',notes:'Audio board not calibrated to auditorium during event',status:'Open'},
+  {date:'4/15/2026',room:'110',issue:'Stewardship',sev:'Low',sem:'spring',notes:'Computer off; A/V panel left on',status:'Resolved'},
+  {date:'4/15/2026',room:'112',issue:'Stewardship',sev:'Low',sem:'spring',notes:'Computer off; A/V panel on; monitor unplugged',status:'Resolved'},
+  {date:'4/20/2026',room:'G03',issue:'Projectors',sev:'High',sem:'spring',notes:'Left projector not connecting to system; rebooted and resolved',status:'Resolved',ticket:'26124225'},
+  {date:'4/20/2026',room:'G03',issue:'Mics/Audio',sev:'Medium',sem:'spring',notes:'Audio board not calibrated; submitted tech ticket',status:'Open',ticket:'26168158'},
+  {date:'5/1/2026',room:'116',issue:'Zoom - Audio',sev:'Low',sem:'spring',notes:'Zoom not detecting speaker/mic; switched Extron 2→1',status:'Resolved'},
+  {date:'5/4/2026',room:'G03',issue:'Projectors',sev:'Medium',sem:'spring',notes:'Right projector screen crimped/dented',status:'Open'},
+  {date:'5/18/2026',room:'G03',issue:'Projectors',sev:'High',sem:'spring',notes:'Right projector not working; rebooted to engage',status:'Open',ticket:'26304777'},
+  {date:'5/18/2026',room:'201',issue:'Zoom - Audio',sev:'High',sem:'spring',notes:'Audio speaker and mic not working; Extron volume too low',status:'Resolved'},
+  {date:'5/18/2026',room:'203',issue:'Mics/Audio',sev:'Low',sem:'spring',notes:'Audio volume too high; lowered room and podium mic volumes',status:'Resolved'},
+  {date:'5/18/2026',room:'320',issue:'USBC',sev:'Low',sem:'spring',notes:'USC-B took a few tries; instructor podium not engaging',status:'Resolved'},
+  {date:'5/18/2026',room:'322',issue:'AV Panel',sev:'Medium',sem:'spring',notes:'A/V panel flashing red; rebooted and reconnected',status:'Resolved'},
+];
+
+// ── CHART INSTANCES ──────────────────────────────────────────────────────────
+let charts = {};
+let currentSemester = 'all';
+let logSortKey = 'date';
+let logSortAsc = true;
+
+function getFiltered() {
+  if (currentSemester === 'all') return ISSUES;
+  return ISSUES.filter(i => i.sem === currentSemester);
+}
+
+function setSemester(sem, btn) {
+  currentSemester = sem;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  rebuildCharts();
+  renderLog();
+}
+
+function switchView(name, el) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  el.classList.add('active');
+  const titles = {
+    overview: 'Overview', rooms: 'Room Heat Map',
+    trends: 'Issue Trends', log: 'Issue Log', tickets: 'Open Tickets'
+  };
+  document.getElementById('topbarTitle').innerHTML =
+    `${titles[name]} <span>2025–2026</span>`;
+  if (name === 'rooms') buildRoomCharts();
+  if (name === 'trends') buildTrendView();
+  if (name === 'log') renderLog();
+}
+
+// ── OVERVIEW CHARTS ──────────────────────────────────────────────────────────
+const NAVY = '#002147';
+const GOLD = '#C9A84C';
+const GRID_C = 'rgba(0,0,0,0.05)';
+const TICK_C = '#9CA3AF';
+const baseOpts = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { display: false } },
+  scales: {
+    x: { ticks:{ color:TICK_C, font:{size:10} }, grid:{ color:GRID_C } },
+    y: { ticks:{ color:TICK_C, font:{size:10} }, grid:{ color:GRID_C }, beginAtZero:true }
+  }
+};
+
+function countBy(data, key) {
+  return data.reduce((acc, i) => {
+    acc[i[key]] = (acc[i[key]] || 0) + 1;
+    return acc;
+  }, {});
+}
+
+function rebuildCharts() {
+  const data = getFiltered();
+  const fallData   = ISSUES.filter(i=>i.sem==='fall');
+  const springData = ISSUES.filter(i=>i.sem==='spring');
+
+  // Update KPIs
+  document.getElementById('kpi-total').textContent = data.length;
+
+  // Category chart
+  const cats = ['Zoom - Audio','Stewardship','Projectors','Mics/Audio','Zoom - Camera','AV Panel','Docucam','Other','Microphone'];
+  const shortCats = ['Zoom Audio','Stewardship','Projectors','Mics/Audio','Zoom Camera','AV Panel','Docucam','Other','Microphone'];
+
+  if (currentSemester === 'all') {
+    const fallC   = countBy(fallData,   'issue');
+    const springC = countBy(springData, 'issue');
+    updateChart('catChart', {
+      type:'bar',
+      data:{
+        labels: shortCats,
+        datasets:[
+          { label:'Fall 2025',   data: cats.map(c=>fallC[c]||0),   backgroundColor:NAVY+'CC', borderRadius:3 },
+          { label:'Spring 2026', data: cats.map(c=>springC[c]||0), backgroundColor:GOLD+'BB', borderRadius:3 }
+        ]
+      },
+      options:{...baseOpts, scales:{...baseOpts.scales,
+        x:{ticks:{color:TICK_C,font:{size:9},autoSkip:false,maxRotation:35},grid:{color:GRID_C}}
+      }}
+    });
+    document.getElementById('catChartDesc').textContent = 'Comparing Fall 2025 vs Spring 2026';
+  } else {
+    const c = countBy(data, 'issue');
+    updateChart('catChart', {
+      type:'bar',
+      data:{
+        labels: shortCats,
+        datasets:[{ label:'Issues', data:cats.map(cat=>c[cat]||0),
+          backgroundColor:currentSemester==='fall'?NAVY+'CC':GOLD+'BB', borderRadius:3 }]
+      },
+      options:{...baseOpts, scales:{...baseOpts.scales,
+        x:{ticks:{color:TICK_C,font:{size:9},autoSkip:false,maxRotation:35},grid:{color:GRID_C}}
+      }}
+    });
+    document.getElementById('catChartDesc').textContent =
+      currentSemester === 'fall' ? 'Fall 2025 only' : 'Spring 2026 only';
+  }
+
+  // Monthly chart
+  const months = ['Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
+  const monthMap = {
+    'Aug':'8/','Sep':'9/','Oct':'10/','Nov':'11/','Dec':'12/',
+    'Jan':'1/','Feb':'2/','Mar':'3/','Apr':'4/','May':'5/'
+  };
+  const fallYearMap   = {'Aug':'2025','Sep':'2025','Oct':'2025','Nov':'2025','Dec':'2025'};
+  const springYearMap = {'Jan':'2026','Feb':'2026','Mar':'2026','Apr':'2026','May':'2026'};
+
+  function countMonth(issues, monthLabel) {
+    const prefix = monthMap[monthLabel];
+    return issues.filter(i => i.date.startsWith(prefix)).length;
+  }
+
+  const fallMonths   = ['Aug','Sep','Oct','Nov','Dec'];
+  const springMonths = ['Jan','Feb','Mar','Apr','May'];
+
+  if (currentSemester === 'all') {
+    updateChart('monthChart', {
+      type:'line',
+      data:{
+        labels: months,
+        datasets:[
+          { label:'Fall 2025', data:[...fallMonths.map(m=>countMonth(fallData,m)),...[null,null,null,null,null]],
+            borderColor:NAVY, backgroundColor:NAVY+'15', fill:true, tension:.35, pointRadius:4, spanGaps:false },
+          { label:'Spring 2026', data:[[null,null,null,null,null],...springMonths.map(m=>countMonth(springData,m))].flat(),
+            borderColor:GOLD, backgroundColor:GOLD+'18', fill:true, tension:.35, pointRadius:4, spanGaps:false, borderDash:[4,3] }
+        ]
+      },
+      options:{...baseOpts,scales:{...baseOpts.scales,
+        x:{ticks:{color:TICK_C,font:{size:10},autoSkip:false,maxRotation:30},grid:{color:GRID_C}}
+      }}
+    });
+  } else {
+    const mths = currentSemester==='fall' ? fallMonths : springMonths;
+    const src  = currentSemester==='fall' ? fallData   : springData;
+    updateChart('monthChart', {
+      type:'line',
+      data:{
+        labels: mths,
+        datasets:[{ label:'Issues', data:mths.map(m=>countMonth(src,m)),
+          borderColor:currentSemester==='fall'?NAVY:GOLD,
+          backgroundColor:(currentSemester==='fall'?NAVY:GOLD)+'18',
+          fill:true, tension:.35, pointRadius:5 }]
+      },
+      options:baseOpts
+    });
+  }
+
+  // Severity donut
+  const sevCounts = countBy(data,'sev');
+  updateChart('sevDonut',{
+    type:'doughnut',
+    data:{
+      labels:['High','Medium','Low'],
+      datasets:[{ data:[sevCounts['High']||0,sevCounts['Medium']||0,sevCounts['Low']||0],
+        backgroundColor:['#DC2626CC','#D97706CC','#16A34ACC'],
+        borderWidth:2, borderColor:'#fff' }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{ display:true, position:'bottom',
+          labels:{ font:{size:10,family:"'DM Sans',sans-serif"}, boxWidth:10, padding:8, color:TICK_C } }
+      },
+      cutout:'65%'
+    }
+  });
+
+  // Issue type pie
+  const issueCounts = countBy(data,'issue');
+  const topIssues = Object.entries(issueCounts).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const palette = [NAVY,'#1B3A6B','#2B5298','#C9A84C','#E8C86A','#8B7355'];
+  updateChart('typeChart',{
+    type:'pie',
+    data:{
+      labels: topIssues.map(([k])=>k.replace('Zoom - ','')),
+      datasets:[{ data:topIssues.map(([,v])=>v),
+        backgroundColor:palette, borderWidth:2, borderColor:'#fff' }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{ display:true, position:'bottom',
+          labels:{ font:{size:9,family:"'DM Sans',sans-serif"}, boxWidth:10, padding:6, color:TICK_C } }
+      }
+    }
+  });
+
+  // Top 5 rooms bar
+  const roomC = countBy(data,'room');
+  const topRooms = Object.entries(roomC).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  updateChart('roomBarChart',{
+    type:'bar',
+    data:{
+      labels: topRooms.map(([r])=>r),
+      datasets:[{ label:'Issues', data:topRooms.map(([,v])=>v),
+        backgroundColor:[NAVY,'#1B3A6B','#2B5298','#C9A84C','#E8C86A'],
+        borderRadius:4 }]
+    },
+    options:{...baseOpts, indexAxis:'y',
+      scales:{
+        x:{ticks:{color:TICK_C,font:{size:10}},grid:{color:GRID_C},beginAtZero:true},
+        y:{ticks:{color:TICK_C,font:{size:10}},grid:{color:GRID_C}}
+      }
+    }
+  });
+}
+
+function updateChart(id, config) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (charts[id]) { charts[id].destroy(); }
+  charts[id] = new Chart(el, config);
+}
+
+// ── ROOM HEATMAP ──────────────────────────────────────────────────────────────
+function buildHeatmap() {
+  const roomC = countBy(ISSUES, 'room');
+  const rooms = ['G03','201','203','110','111','112','116','118','120','302','316','318','320','322','340','DCR','301','G03B','234','243'];
+  const grid = document.getElementById('heatmapGrid');
+  grid.innerHTML = '';
+  rooms.forEach(r => {
+    const count = roomC[r] || 0;
+    let bg, textC;
+    if (count >= 26)     { bg='#FFCDD2'; textC='#B71C1C'; }
+    else if (count >= 16){ bg='#FFE0B2'; textC='#E65100'; }
+    else if (count >= 6) { bg='#FFF9C4'; textC='#F57F17'; }
+    else if (count > 0)  { bg='#E8F5E9'; textC='#1B5E20'; }
+    else                 { bg='#F5F5F5'; textC='#9E9E9E'; }
+    const div = document.createElement('div');
+    div.className = 'heatmap-room';
+    div.style.cssText = `background:${bg};color:${textC};`;
+    div.innerHTML = `<span class="room-id">${r}</span><span class="room-count">${count} issues</span>`;
+    if (count > 0) div.onclick = () => openDetail(r);
+    grid.appendChild(div);
+  });
+}
+
+function buildRoomCharts() {
+  const roomC = countBy(ISSUES, 'room');
+  const allRooms = Object.entries(roomC).sort((a,b)=>b[1]-a[1]);
+
+  updateChart('roomFullChart',{
+    type:'bar',
+    data:{
+      labels: allRooms.map(([r])=>r),
+      datasets:[{ label:'Total', data:allRooms.map(([,v])=>v),
+        backgroundColor: allRooms.map((_,i)=>i<3?NAVY:i<6?'#1B3A6B':'#B5C4D8'),
+        borderRadius:3 }]
+    },
+    options:{...baseOpts,scales:{...baseOpts.scales,
+      x:{ticks:{color:TICK_C,font:{size:9},autoSkip:false,maxRotation:45},grid:{color:GRID_C}}
+    }}
+  });
+
+  // Stacked sev by top rooms
+  const topRms = allRooms.slice(0,8).map(([r])=>r);
+  const highD  = topRms.map(r=>ISSUES.filter(i=>i.room===r&&i.sev==='High').length);
+  const medD   = topRms.map(r=>ISSUES.filter(i=>i.room===r&&i.sev==='Medium').length);
+  const lowD   = topRms.map(r=>ISSUES.filter(i=>i.room===r&&i.sev==='Low').length);
+
+  updateChart('roomSevChart',{
+    type:'bar',
+    data:{
+      labels: topRms,
+      datasets:[
+        { label:'High',   data:highD, backgroundColor:'#DC2626BB', borderRadius:2 },
+        { label:'Medium', data:medD,  backgroundColor:'#D97706BB', borderRadius:2 },
+        { label:'Low',    data:lowD,  backgroundColor:'#16A34ABB', borderRadius:2 }
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{ legend:{ display:true, position:'top',
+        labels:{ font:{size:10,family:"'DM Sans',sans-serif"}, boxWidth:10, color:TICK_C } } },
+      scales:{
+        x:{ ticks:{color:TICK_C,font:{size:9}}, grid:{color:GRID_C}, stacked:true },
+        y:{ ticks:{color:TICK_C,font:{size:10}}, grid:{color:GRID_C}, stacked:true, beginAtZero:true }
+      }
+    }
+  });
+}
+
+// ── DETAIL PANEL ──────────────────────────────────────────────────────────────
+function openDetail(room) {
+  const roomIssues = ISSUES.filter(i=>i.room===room);
+  const sevC = countBy(roomIssues,'sev');
+  const semC = countBy(roomIssues,'sem');
+  const openC = roomIssues.filter(i=>i.status==='Open').length;
+
+  document.getElementById('detailRoomId').textContent = 'Room ' + room;
+  document.getElementById('detailBody').innerHTML = `
+    <div class="detail-stat-row">
+      <div class="detail-stat"><span class="val">${roomIssues.length}</span><span class="lbl">Total Issues</span></div>
+      <div class="detail-stat"><span class="val">${semC['fall']||0}</span><span class="lbl">Fall 2025</span></div>
+      <div class="detail-stat"><span class="val">${semC['spring']||0}</span><span class="lbl">Spring 2026</span></div>
+    </div>
+    <div class="detail-stat-row">
+      <div class="detail-stat"><span class="val" style="color:var(--red)">${sevC['High']||0}</span><span class="lbl">High</span></div>
+      <div class="detail-stat"><span class="val" style="color:var(--amber)">${sevC['Medium']||0}</span><span class="lbl">Medium</span></div>
+      <div class="detail-stat"><span class="val" style="color:var(--green)">${sevC['Low']||0}</span><span class="lbl">Low</span></div>
+    </div>
+    ${openC > 0 ? `<div style="background:var(--amber-lt);border:1px solid #FDE68A;border-radius:8px;padding:.7rem 1rem;margin-bottom:1rem;font-size:13px;color:var(--amber);font-weight:600;">⚑ ${openC} open ticket${openC>1?'s':''} for this room</div>` : ''}
+    <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:.5rem;">Issue History</div>
+    <div class="detail-issue-list">
+      ${roomIssues.sort((a,b)=>new Date(b.date)-new Date(a.date)).map(i=>`
+        <div class="detail-issue">
+          <div class="di-meta">
+            <span class="sev-badge ${i.sev}">${i.sev}</span>
+            <span style="font-size:11px;background:#EEF2FF;color:var(--navy);padding:1px 7px;border-radius:20px;font-weight:600;">${i.issue}</span>
+            <span class="di-date">${i.date}</span>
+            ${i.status==='Open'?'<span class="status-badge Open">Open</span>':''}
+          </div>
+          <div style="font-size:12px;color:var(--mid);">${i.notes}</div>
+        </div>`).join('')}
+    </div>`;
+
+  document.getElementById('detailPanel').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+// ── TRENDS VIEW ──────────────────────────────────────────────────────────────
+function buildTrendView() {
+  const cats = [
+    {k:'Stewardship',   label:'Stewardship'},
+    {k:'Zoom - Audio',  label:'Zoom Audio'},
+    {k:'Projectors',    label:'Projectors'},
+    {k:'Mics/Audio',    label:'Mics / Audio'},
+    {k:'Zoom - Camera', label:'Zoom Camera'},
+    {k:'AV Panel',      label:'AV Panel'},
+  ];
+
+  const fallD   = ISSUES.filter(i=>i.sem==='fall');
+  const springD = ISSUES.filter(i=>i.sem==='spring');
+
+  const container = document.getElementById('trendCards');
+  container.innerHTML = cats.map((c,idx)=>{
+    const f = fallD.filter(i=>i.issue===c.k).length;
+    const s = springD.filter(i=>i.issue===c.k).length;
+    const delta = f>0 ? Math.round((s-f)/f*100) : 0;
+    const color = delta<=0?'var(--green)':'var(--red)';
+    const bg    = delta<=0?'var(--green-lt)':'var(--red-lt)';
+    return `<div class="trend-card${idx===0?' active':''}" onclick="selectTrend(this,'${c.k}','${c.label}')">
+      <div class="trend-cat">${c.label}</div>
+      <div class="trend-nums">
+        <span class="trend-fall">${f}</span>
+        <span class="trend-arrow">→</span>
+        <span class="trend-spr" style="color:${color}">${s}</span>
+      </div>
+      <div class="trend-delta" style="background:${bg};color:${color}">${delta<=0?'':'+'}${delta}%</div>
+    </div>`;
+  }).join('');
+
+  // Draw initial trend detail
+  renderTrendDetail('Stewardship','Stewardship');
+}
+
+let activeTrendCat = 'Stewardship';
+function selectTrend(el, cat, label) {
+  document.querySelectorAll('.trend-card').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  activeTrendCat = cat;
+  renderTrendDetail(cat, label);
+}
+
+function renderTrendDetail(cat, label) {
+  document.getElementById('trendChartTitle').textContent = label + ' — Monthly Breakdown';
+
+  const months = ['Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
+  const monthPrefixes = ['8/','9/','10/','11/','12/','1/','2/','3/','4/','5/'];
+  const isFall = [true,true,true,true,true,false,false,false,false,false];
+
+  const counts = months.map((m,i)=>{
+    return ISSUES.filter(iss=>iss.issue===cat && iss.date.startsWith(monthPrefixes[i]) &&
+      iss.sem===(isFall[i]?'fall':'spring')).length;
+  });
+
+  updateChart('trendDetailChart',{
+    type:'bar',
+    data:{
+      labels: months,
+      datasets:[{
+        label: label,
+        data: counts,
+        backgroundColor: months.map((_,i)=>isFall[i]?NAVY+'BB':GOLD+'BB'),
+        borderRadius: 4
+      }]
+    },
+    options:{
+      ...baseOpts,
+      plugins:{
+        legend:{display:false},
+        annotation:{}
+      },
+      scales:{...baseOpts.scales,
+        x:{ticks:{color:TICK_C,font:{size:10},autoSkip:false},grid:{color:GRID_C}},
+        y:{ticks:{color:TICK_C,font:{size:10}},grid:{color:GRID_C},beginAtZero:true,
+           title:{display:true,text:'Issue Count',color:TICK_C,font:{size:10}}}
+      }
+    }
+  });
+}
+
+// ── ISSUE LOG ──────────────────────────────────────────────────────────────────
+function renderLog() {
+  let data = getFiltered();
+  const q = (document.getElementById('logSearch')?.value||'').toLowerCase();
+  if (q) {
+    data = data.filter(i=>
+      i.room.toLowerCase().includes(q)||
+      i.issue.toLowerCase().includes(q)||
+      i.notes.toLowerCase().includes(q)||
+      i.sev.toLowerCase().includes(q)
+    );
+  }
+
+  // Sort
+  data = [...data].sort((a,b)=>{
+    let va=a[logSortKey],vb=b[logSortKey];
+    if (logSortKey==='date'){va=new Date(a.date);vb=new Date(b.date);}
+    if (va<vb) return logSortAsc?-1:1;
+    if (va>vb) return logSortAsc?1:-1;
+    return 0;
+  });
+
+  document.getElementById('logCount').textContent = data.length + ' records';
+  const tbody = document.getElementById('logBody');
+  tbody.innerHTML = data.map(i=>`
+    <tr>
+      <td style="white-space:nowrap;color:var(--mid);font-size:12px;">${i.date}</td>
+      <td><strong>${i.room}</strong></td>
+      <td><span style="background:#EEF2FF;color:var(--navy);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;">${i.issue}</span></td>
+      <td><span class="sev-badge ${i.sev}">${i.sev}</span></td>
+      <td><span style="font-size:11px;color:var(--mid);text-transform:capitalize;">${i.sem==='fall'?'Fall 2025':'Spring 2026'}</span></td>
+      <td style="max-width:320px;font-size:12px;color:var(--mid);">${i.notes}</td>
+      <td><span class="status-badge ${i.status}">${i.status}</span></td>
+    </tr>`).join('');
+}
+
+function filterLog() { renderLog(); }
+
+function sortLog(key) {
+  if (logSortKey===key) logSortAsc=!logSortAsc;
+  else { logSortKey=key; logSortAsc=true; }
+  renderLog();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+rebuildCharts();
+buildHeatmap();
+renderLog();
+</script>
+</body>
+</html>
